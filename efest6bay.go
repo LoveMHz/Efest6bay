@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
+	"encoding/hex"
 )
 
 // Decodes Bluetooth LE message. Based on orginal 'Efest 6bay charger' Android app.
@@ -14,6 +16,22 @@ func decodeMessage(reciverBytes []byte) string {
     }
 
     return decodeData
+}
+
+func encodeMessage(bytes []byte) []byte {
+    encodeByte := make([]byte, len(bytes) + 3)
+
+    encodeByte[0] = 84
+    encodeByte[1] = encodeByte[0] ^ byte(len(bytes) + 1)
+
+    num := byte(rand.Int())
+    encodeByte[2] = encodeByte[0] ^ num
+    
+    for i := 0; i < len(bytes); i++ {
+        encodeByte[i + 3] = bytes[i] ^ num
+    }
+    
+    return encodeByte
 }
 
 // TODO-dustin: Find a proper place for this function to live.
