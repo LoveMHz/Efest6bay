@@ -5,7 +5,7 @@ import (
 )
 
 // Decodes Bluetooth LE message. Based on orginal 'Efest 6bay charger' Android app.
-func decodeMessage(reciverBytes) string {
+func decodeMessage(reciverBytes []byte) string {
     var decodeData string
     var oNum byte = reciverBytes[0] ^ reciverBytes[2]
 
